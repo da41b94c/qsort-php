@@ -25,7 +25,7 @@ echo '&lt;pre&gt;', var_dump( qsort( $data ) ) ,'&lt;/pre&gt;';
 // &gt; }}
 
 // Решение с сохранением повторяющихся значений:
-echo '&lt;pre&gt;', var_dump( qsortqWithDuplicateValues( $data ) ) ,'&lt;/pre&gt;';
+echo '&lt;pre&gt;', var_dump( qsortWithRepeats( $data ) ) ,'&lt;/pre&gt;';
 // &gt; array(11) {
 // &gt;   [0]=&gt;
 // &gt;   int(1)
