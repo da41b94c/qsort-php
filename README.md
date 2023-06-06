@@ -50,5 +50,5 @@ echo '&lt;pre&gt;', var_dump( qsortWithRepeats( $data ) ) ,'&lt;/pre&gt;';
 // &gt;   [10]=&gt;
 // &gt;   int(199)
 // &gt; }
-
 </pre>
+https://developer.donnoval.ru/qsort-php/
