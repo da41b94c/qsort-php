@@ -14,11 +14,13 @@ declare(strict_types=1);
  */
 function qsort(array $values): array
 {
+	$values = array_values($values);
+
 	if (count($values) < 2) {
-		return array_values($values);
+		return $values;
 	}
 
-	$pivot = $values[array_key_first($values)];
+	$pivot = $values[intdiv(count($values), 2)];
 	$less = [];
 	$greater = [];
 
@@ -44,12 +46,13 @@ function qsort(array $values): array
  */
 function qsortWithRepeats(array $values): array
 {
+	$values = array_values($values);
+
 	if (count($values) < 2) {
-		return array_values($values);
+		return $values;
 	}
 
-	$pivotKey = array_key_first($values);
-	$pivot = $values[$pivotKey];
+	$pivot = $values[intdiv(count($values), 2)];
 	$less = [];
 	$equal = [];
 	$greater = [];
