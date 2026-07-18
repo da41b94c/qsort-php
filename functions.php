@@ -1,63 +1,72 @@
 <?php
 
-function qsort( $arr ) 
-{ 
-    if( sizeof( $arr ) < 2 )    
-    { 
-        return $arr; 
-    } 
-    else 
-    { 
-        $baseIndex = 0;
-        // в качестве опорного значения можно взять любое из массива
-        // $baseIndex = rand( 0, sizeof( $arr ) - 1 );
-        $base = $arr[ $baseIndex ];
-        $lt = []; 
-        $gt = []; 
-        $mid = [ $base ]; 
-        foreach( $arr as $index => $value ) 
-        { 
-            if( $value > $base ) 
-            { 
-                array_push( $gt, $value ); 
-            } 
-            else if( $value < $base ) 
-            { 
-                array_push( $lt, $value ); 
-            }           
-        }
-        return array_merge( qsort( $lt ), $mid, qsort( $gt ) ); 
-    } 
-} 
+declare(strict_types=1);
 
-function qsortWithRepeats( $arr ) 
-{ 
-    if( sizeof( $arr ) < 2 )    
-    { 
-        return $arr; 
-    } 
-    else 
-    { 
-        $baseIndex = 0;
-        $base = $arr[ $baseIndex ];
-        $lt = []; 
-        $gt = []; 
-        $mid = [ $base ]; 
-        foreach( $arr as $index => $value ) 
-        { 
-            if( $value > $base ) 
-            { 
-                array_push( $gt, $value ); 
-            } 
-            else if( $value < $base ) 
-            { 
-                array_push( $lt, $value ); 
-            } 
-            else if( $index != $baseIndex AND $value == $base ) 
-            { 
-                array_push( $mid, $value ); 
-            } 
-        }
-        return array_merge( qsortWithRepeats( $lt ), $mid, qsortWithRepeats( $gt ) ); 
-    } 
-} 
+/**
+ * Sorts values in ascending order and removes duplicates.
+ *
+ * The function keeps the original public API for backward compatibility.
+ * Array keys are not preserved.
+ *
+ * @param array<int|string, int|float|string> $values
+ *
+ * @return list<int|float|string>
+ */
+function qsort(array $values): array
+{
+	if (count($values) < 2) {
+		return array_values($values);
+	}
+
+	$pivot = $values[array_key_first($values)];
+	$less = [];
+	$greater = [];
+
+	foreach ($values as $value) {
+		if ($value < $pivot) {
+			$less[] = $value;
+		} elseif ($value > $pivot) {
+			$greater[] = $value;
+		}
+	}
+
+	return array_merge(qsort($less), [$pivot], qsort($greater));
+}
+
+/**
+ * Sorts values in ascending order and preserves duplicates.
+ *
+ * Array keys are not preserved.
+ *
+ * @param array<int|string, int|float|string> $values
+ *
+ * @return list<int|float|string>
+ */
+function qsortWithRepeats(array $values): array
+{
+	if (count($values) < 2) {
+		return array_values($values);
+	}
+
+	$pivotKey = array_key_first($values);
+	$pivot = $values[$pivotKey];
+	$less = [];
+	$equal = [];
+	$greater = [];
+
+	foreach ($values as $value) {
+		if ($value < $pivot) {
+			$less[] = $value;
+		} elseif ($value > $pivot) {
+			$greater[] = $value;
+		} else {
+			$equal[] = $value;
+		}
+	}
+
+	return array_merge(
+		qsortWithRepeats($less),
+		$equal,
+		qsortWithRepeats($greater),
+	);
+}
